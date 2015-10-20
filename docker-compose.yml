@@ -1,0 +1,17 @@
+redis:
+  image: redis
+  expose:
+    - 6379
+
+app:
+  build: .
+  command: bundle exec shotgun -o 0.0.0.0 -p 9393
+  volumes:
+    - .:/chompy
+  ports:
+    - '9393:9393'
+  links:
+    - redis
+  environment:
+    - REDIS_URL=redis://redis:6379
+    - PORT=9393
