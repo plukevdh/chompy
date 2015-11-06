@@ -12,7 +12,7 @@ module Chompy
           command = r.params['text']
 
           {
-            response_type: "in_channel"
+            response_type: "in_channel",
             text: "#{name} be like :chompy:"
           }
         end
