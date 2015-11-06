@@ -6,7 +6,7 @@ RUN mkdir $APP_DIR
 WORKDIR $APP_DIR
 
 COPY Gemfile* $APP_DIR/
-RUN bundle install --without development test
+RUN bundle install --without test
 
 ADD . $APP_DIR/
 

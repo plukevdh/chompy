@@ -1,0 +1,24 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [],
+  "containerDefinitions": [
+    {
+      "name": "chompy-app",
+      "image": "quay.io/plukevdh/chompy",
+      "environment": [
+        {
+          "name": "REDIS_URI",
+          "value": "redis://chompy.mrygqz.0001.use1.cache.amazonaws.com:6379/"
+        }
+      ],
+      "essential": true,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 9393
+        }
+      ]
+    }
+  ]
+}
