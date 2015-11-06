@@ -1,13 +1,12 @@
 {
   "AWSEBDockerrunVersion": 2,
-  "volumes": [],
   "containerDefinitions": [
     {
       "name": "chompy-app",
       "image": "quay.io/plukevdh/chompy",
       "environment": [
         {
-          "name": "REDIS_URI",
+          "name": "REDIS_URL",
           "value": "redis://chompy.mrygqz.0001.use1.cache.amazonaws.com:6379/"
         }
       ],
