@@ -12,6 +12,7 @@ app:
     - '9393:9393'
   links:
     - redis
+  env_file: .env
   environment:
     - REDIS_URL=redis://redis:6379
     - PORT=9393
