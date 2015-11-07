@@ -23,6 +23,7 @@ GEM
       faraday_middleware
       faye-websocket
     tilt (2.0.1)
+    time-lord (1.0.1)
     websocket-driver (0.6.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -37,6 +38,7 @@ DEPENDENCIES
   shotgun
   slack-ruby-client
   tilt
+  time-lord
 
 BUNDLED WITH
    1.10.6

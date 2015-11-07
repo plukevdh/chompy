@@ -6,9 +6,6 @@ module Chompy
     end
 
     def run
-      puts "SUB COMMAND: #{@cmd}"
-      puts "CHANNEL #{@context.channel_id}"
-
       return many_response channel_chompies(@context.channel_id) if here?
       return many_response channel_chompies(get_channel(@cmd)) if channel_provided?
       return single_response(@cmd) if user_provided?
@@ -70,7 +67,8 @@ module Chompy
       if status.nil?
         "is currently not :chompy:"
       else
-        Statuses.instance.time_away(user.id)
+        time_away = Statuses.instance.time_away(user.id)
+        ":chompy: since #{time_away}"
       end
     end
   end

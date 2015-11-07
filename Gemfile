@@ -4,6 +4,7 @@ gem 'tilt'
 gem 'roda'
 gem 'redis'
 gem 'slack-ruby-client'
+gem 'time-lord'
 
 group :development do
   gem 'shotgun'

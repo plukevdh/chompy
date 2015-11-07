@@ -1,4 +1,5 @@
 require 'redis'
+require 'time-lord'
 
 module Chompy
   class Statuses
@@ -35,7 +36,7 @@ module Chompy
     def time_away(username)
       since = find(username)
 
-      since ? (Time.now - Time.iso8601(since)) : nil
+      since ? (Time.now - Time.iso8601(since)).to_i.seconds.ago.to_words : nil
     end
 
     # returns the duration of away time in seconds
