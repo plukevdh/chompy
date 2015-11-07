@@ -20,7 +20,7 @@ module Chompy
     def perform
       token_error_response unless valid_token?
 
-      command.run
+      response(message: command.run, type: 'ephemeral')
     rescue StandardError => e
       puts e.backtrace
       error_response(e)
