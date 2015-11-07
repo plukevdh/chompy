@@ -23,10 +23,6 @@ module Chompy
       end
     end
 
-    def format_response(user, info)
-      { user => info }
-    end
-
     route do |r|
       r.root do
         view :home

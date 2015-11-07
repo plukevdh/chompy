@@ -4,20 +4,24 @@ module Chompy
 
     repo = Statuses.instance
 
+    def format_response(user, info)
+      { user => info }
+    end
+
     route do |r|
       r.on 'users' do
-        r.get do
+        r.is method: :get do
           repo.all
         end
 
         r.on ':user' do |user|
-          r.get do
+          r.is method: :get do
             repo.find(user)
           end
 
           r.get "status" do
             time = repo.time_away(user)
-            status = repo.away?(user) ? "away for #{time} seconds" : "is present"
+            status = repo.away?(user) ? "away since #{time}" : "is present"
 
             format_response(user, status)
           end
