@@ -27,7 +27,7 @@ module Chompy
     end
 
     def single_response(username)
-      user = Slacker.instance.find_by_username(username)
+      user = Slacker.instance.user_by_name(username)
       status = user_status(user)
 
       "#{user.slack_name} #{status}"
