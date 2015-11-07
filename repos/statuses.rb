@@ -2,6 +2,8 @@ require 'redis'
 
 module Chompy
   class Statuses
+    include Singleton
+
     STATUS_KEY = 'chompy:status:'
     EXPIRE_TIME_IN_SECONDS = 18_000  # 5 hours in seconds
 

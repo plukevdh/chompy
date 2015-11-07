@@ -2,7 +2,7 @@ module Chompy
   class StatusAPI < Roda
     plugin :json
 
-    repo = Statuses.new
+    repo = Statuses.instance
 
     route do |r|
       r.on 'users' do

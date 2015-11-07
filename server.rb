@@ -1,7 +1,10 @@
+require 'singleton'
+require 'forwardable'
+
 require 'roda'
 
-require_relative 'models/statuses'
-require_relative 'models/slacker'
+require_relative 'repos/statuses'
+require_relative 'repos/slacker'
 
 require_relative 'endpoints/status_api'
 require_relative 'endpoints/slack_command_api'
@@ -11,8 +14,6 @@ module Chompy
     plugin :all_verbs
     plugin :render
     plugin :json
-
-    repo = Statuses.new
 
     def initialize(env)
       super
