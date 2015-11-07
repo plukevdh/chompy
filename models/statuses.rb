@@ -11,7 +11,7 @@ module Chompy
 
     def all
       keys = @client.scan_each(match: STATUS_KEY + '*').to_a.uniq
-      return [] if keys.empty?
+      return {} if keys.empty?
 
       results = @client.mapped_mget(*keys)
       clean_key_names(results)

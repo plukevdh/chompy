@@ -12,6 +12,14 @@ module Chompy
       "<@#{user_id}|#{user_name}>"
     end
 
+    def action
+      @command.text
+    end
+
+    def user_given?
+      action.include? '@'
+    end
+
     def valid_token?
       token == ENV.fetch('SLASH_COMMAND_TOKEN')
     end
