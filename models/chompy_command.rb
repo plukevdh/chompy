@@ -20,7 +20,10 @@ module Chompy
     def perform
       token_error_response unless valid_token?
 
-      response(message: command.run, type: 'ephemeral')
+      action_requested, *rest = action.split(' ')
+      command = command_strategy(action_requested).new(rest.join(' '), self)
+
+      response(message: command.run, type: command.type)
     rescue StandardError => e
       puts e.backtrace
       error_response(e)
@@ -49,11 +52,8 @@ module Chompy
       @command.text.strip
     end
 
-    def command
-      action_requested, *rest = action.split(' ')
-      puts "COMMAND GIVEN: #{action_requested}"
-
-      command = COMMANDS.fetch(action_requested, StatusToggle).new(rest.join(' '), self)
+    def command_strategy(action_requested)
+      COMMANDS.fetch(action_requested, StatusToggle)
     end
 
     def user_given?

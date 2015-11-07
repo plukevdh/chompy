@@ -13,6 +13,10 @@ module Chompy
       many_response all_chompies
     end
 
+    def type
+      'ephemeral'
+    end
+
     private
 
     def many_response(users)
@@ -62,13 +66,12 @@ module Chompy
     end
 
     def user_status(user)
-      status = Statuses.instance.find(user.id)
+      user = Statuses.instance.find(user.id)
 
-      if status.nil?
-        "is currently not :chompy:"
+      if user.away?
+        "has been :chompy: #{user.status} since #{user.time_away}"
       else
-        time_away = Statuses.instance.time_away(user.id)
-        ":chompy: since #{time_away}"
+        "is currently not :chompy:"
       end
     end
   end

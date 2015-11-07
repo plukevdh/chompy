@@ -1,5 +1,6 @@
 require 'redis'
 require 'time-lord'
+require_relative '../models/status_user'
 
 module Chompy
   class Statuses
@@ -21,41 +22,40 @@ module Chompy
     end
 
     def find(username)
-      @client.get (STATUS_KEY + username)
+      StatusUser.from_redis @client.get(STATUS_KEY + username)
     end
 
     # all statuses expire after 5 hours (to avoid stales)
-    def away(username)
-      @client.setex (STATUS_KEY + username), EXPIRE_TIME_IN_SECONDS, Time.now.iso8601
+    def away(username, status=nil)
+      user = StatusUser.new(status: status)
+
+      @client.setex (STATUS_KEY + username),
+        EXPIRE_TIME_IN_SECONDS,
+        user.for_redis
+
+      user
     end
 
     def away?(username)
       @client.exists STATUS_KEY + username
     end
 
-    def time_away(username)
-      since = find(username)
-
-      since ? (Time.now - Time.iso8601(since)).to_i.seconds.ago.to_words : nil
-    end
-
-    # returns the duration of away time in seconds
     def present(username)
-      away = time_away(username)
+      user = find(username)
       @client.del (STATUS_KEY + username)
 
-      away
+      user
     end
 
-    def toggle(username)
-      away?(username) ? present(username) : away(username)
+    def toggle(username, status=nil)
+      away?(username) ? present(username) : away(username, status)
     end
 
     private
 
     def clean_key_names(result_set)
       corrected = {}
-      result_set.each {|k,v| corrected[clean_key(k)] = v}
+      result_set.each {|k,v| corrected[clean_key(k)] = StatusUser.from_redis(v) }
 
       corrected
     end

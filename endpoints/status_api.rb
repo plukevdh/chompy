@@ -4,50 +4,52 @@ module Chompy
 
     repo = Statuses.instance
 
-    def format_response(user, info)
-      { user => info }
+    def request_body(req)
+      JSON.parse(req.body.read)
     end
 
     route do |r|
       r.on 'users' do
         r.is method: :get do
-          repo.all
+          result = {}
+          repo.all.map {|id, user| result[id] = user.to_h }
+
+          result
         end
 
-        r.on ':user' do |user|
+        r.on ':user' do |user_id|
+          user = repo.find(user_id)
+
           r.is method: :get do
-            repo.find(user)
+            user.to_h
           end
 
           r.get "status" do
-            time = repo.time_away(user)
-            status = repo.away?(user) ? "away since #{time}" : "is present"
-
-            format_response(user, status)
+            repo.away?(user_id) ? "away since #{user.time}" : "is present"
           end
 
           r.get 'time' do
-            format_response(user, repo.time_away(user))
+            user.time
           end
 
           r.post 'toggle' do
-            time_or_ok = repo.toggle user
+            user = repo.toggle user_id, request_body(r)['status']
 
-            format_response(user, time_or_ok == "OK" ? "away" : "was gone for #{time_or_ok}")
+            repo.away?(user_id) ? "away" : "was gone for #{user.time_away.gsub(' ago', '')}"
           end
 
           r.post 'away' do
-            repo.away user
+            user = repo.away user_id, request_body(r)['status']
 
-            format_response(user, "away")
+            user.to_h
           end
 
           r.post 'present' do
-            time = repo.present user
-            if time
-              format_response(user, "was gone for #{time}")
-            else
+            user = repo.present user_id
+            if user.is_a? NilStatusUser
               format_response(user, "was already present")
+            else
+              format_response(user, "was gone for #{user.time}")
             end
           end
         end
