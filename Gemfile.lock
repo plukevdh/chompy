@@ -9,6 +9,8 @@ GEM
     faye-websocket (0.10.0)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
+    haml (4.0.7)
+      tilt
     multipart-post (2.0.0)
     puma (2.14.0)
     rack (1.6.4)
@@ -32,6 +34,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  haml
   puma
   redis
   roda

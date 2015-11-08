@@ -12,7 +12,7 @@ require_relative 'endpoints/slack_command_api'
 module Chompy
   class Server < Roda
     plugin :all_verbs
-    plugin :render
+    plugin :render, engine: 'haml'
     plugin :json
 
     def initialize(env)
@@ -25,7 +25,7 @@ module Chompy
 
     route do |r|
       r.root do
-        view :home
+        render 'home'
       end
 
       r.on 'slack' do
