@@ -25,7 +25,11 @@ module Chompy
     def time_away
       return nil unless away?
 
-      (Time.now - time).to_i.seconds.ago.to_words
+      time.ago.to_i.abs
+    end
+
+    def away_in_words
+      time_away.ago.to_words
     end
 
     private

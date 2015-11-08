@@ -69,7 +69,7 @@ module Chompy
       user = Statuses.instance.find(user.id)
 
       if user.away?
-        "has been :chompy: #{user.status} since #{user.time_away}"
+        "has been :chompy: #{user.status} since #{user.away_in_words}"
       else
         "is currently not :chompy:"
       end

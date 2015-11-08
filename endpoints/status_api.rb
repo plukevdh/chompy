@@ -35,7 +35,7 @@ module Chompy
           r.post 'toggle' do
             user = repo.toggle user_id, request_body(r)['status']
 
-            repo.away?(user_id) ? "away" : "was gone for #{user.time_away.gsub(' ago', '')}"
+            repo.away?(user_id) ? "away" : "was gone for #{user.away_in_words.gsub(' ago', '')}"
           end
 
           r.post 'away' do
