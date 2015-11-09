@@ -3,6 +3,8 @@ module Chompy
     def initialize(cmd, context)
       @cmd = cmd.strip
       @context = context
+
+      @location = format_channel(@context.channel_id, @context.channel_name)
     end
 
     def run
@@ -24,7 +26,7 @@ module Chompy
         ":foreveralone:" :
         users.map {|u| format_name(u)}.join(', ')
 
-      "Currently :chompy:: #{statuses}"
+      "Currently :chompy: in #{location}: #{statuses}"
     end
 
     def single_response(username)
@@ -36,6 +38,10 @@ module Chompy
 
     def format_name(user)
       "<@#{user}>"
+    end
+
+    def format_channel(id, name)
+      "<##{id}|#{name}>"
     end
 
     def here?
@@ -62,7 +68,10 @@ module Chompy
     end
 
     def get_channel(name)
-      Slacker.instance.channel_by_name(name).id
+      channel = Slacker.instance.channel_by_name(name)
+      @location = format_channel(channel.id, channel.name)
+
+      channel.id
     end
 
     def user_status(user)
