@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/jeremyevans/roda.git
+  revision: d7ec82f768df15c42b19d1dae1ba110d6271afb3
+  specs:
+    roda (2.7.0)
+      rack
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -15,8 +22,6 @@ GEM
     puma (2.14.0)
     rack (1.6.4)
     redis (3.2.1)
-    roda (2.7.0)
-      rack
     shotgun (0.9.1)
       rack (>= 1.0)
     slack-ruby-client (0.3.1)
@@ -37,7 +42,7 @@ DEPENDENCIES
   haml
   puma
   redis
-  roda
+  roda!
   shotgun
   slack-ruby-client
   tilt

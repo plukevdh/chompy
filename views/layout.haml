@@ -4,6 +4,8 @@
     %title= @title || 'Chompy'
 
   %body
+    = content_for :demo
+
     = yield
 
     = content_for :js

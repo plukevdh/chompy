@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'tilt'
 gem 'haml'
-gem 'roda'
+gem 'roda', git: 'https://github.com/jeremyevans/roda.git'    #use HEAD for now
 gem 'redis'
 gem 'slack-ruby-client'
 gem 'time-lord'
