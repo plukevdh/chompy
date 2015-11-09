@@ -13,6 +13,7 @@ module Chompy
   class Server < Roda
     plugin :all_verbs
     plugin :render, engine: 'haml'
+    # plugin :content_for
     plugin :json
 
     def initialize(env)
@@ -23,9 +24,18 @@ module Chompy
       end
     end
 
+    def content_for(key, &block)
+      if block
+        @content_for ||= {}
+        @content_for[key] = yield
+      else
+        @content_for && @content_for[key]
+      end
+    end
+
     route do |r|
       r.root do
-        render 'home'
+        view 'home'
       end
 
       r.on 'slack' do

@@ -1,7 +1,9 @@
+!!!
 %html
-%head
-  %title Chompy
+  %head
+    %title= @title || 'Chompy'
 
-%body
-  #content
-    - yield
+  %body
+    = yield
+
+    = content_for :js
