@@ -1,5 +1,6 @@
 require_relative 'commands/list_command'
 require_relative 'commands/status_toggle'
+require_relative 'responder'
 
 module Chompy
   class ChompyCommand
@@ -23,7 +24,8 @@ module Chompy
       action_requested, *rest = action.split(' ')
       command = command_strategy(action_requested).new(rest.join(' '), self)
 
-      response(message: command.run, type: command.type)
+      Responder.new.deliver(command.run, channel_name)
+      nil
     rescue StandardError => e
       puts e.backtrace
       error_response(e)
