@@ -26,7 +26,7 @@ module Chompy
         ":foreveralone:" :
         users.map {|u| format_name(u)}.join(', ')
 
-      "Currently :chompy: in #{location}: #{statuses}"
+      "Currently :chompy: in #{@location}: #{statuses}"
     end
 
     def single_response(username)
