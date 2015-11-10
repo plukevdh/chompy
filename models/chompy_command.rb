@@ -24,8 +24,7 @@ module Chompy
       action_requested, *rest = action.split(' ')
       command = command_strategy(action_requested).new(rest.join(' '), self)
 
-      Responder.new.deliver(command.run, channel_name)
-      nil
+      Responder.new.send(command.type, command.run, channel_name)
     rescue StandardError => e
       puts e.backtrace
       error_response(e)

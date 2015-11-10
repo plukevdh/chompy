@@ -12,7 +12,7 @@ module Chompy
       return many_response channel_chompies(get_channel(@cmd)) if channel_provided?
       return single_response(@cmd) if user_provided?
 
-      many_response all_chompies
+      many_response all_chompies, "everywhere"
     end
 
     def type
@@ -21,12 +21,12 @@ module Chompy
 
     private
 
-    def many_response(users)
+    def many_response(users, location=@location)
       statuses = users.empty? ?
         ":foreveralone:" :
         users.map {|u| format_name(u)}.join(', ')
 
-      "Currently :chompy: in #{@location}: #{statuses}"
+      "Currently :chompy: #{location}: #{statuses}"
     end
 
     def single_response(username)
@@ -41,7 +41,7 @@ module Chompy
     end
 
     def format_channel(id, name)
-      "<##{id}|#{name}>"
+      "in <##{id}|#{name}>"
     end
 
     def here?
