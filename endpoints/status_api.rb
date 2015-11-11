@@ -5,7 +5,10 @@ module Chompy
     repo = Statuses.instance
 
     def request_body(req)
-      JSON.parse(req.body.read)
+      body = req.body.read
+      return {} if body.empty?
+
+      JSON.parse(body)
     end
 
     route do |r|
@@ -24,7 +27,7 @@ module Chompy
             user.to_h
           end
 
-          r.get "status" do
+          r.get 'status' do
             repo.away?(user_id) ? "away since #{user.time}" : "is present"
           end
 
