@@ -2,16 +2,17 @@ module Chompy
   class StatusUser
     extend Forwardable
 
-    def_delegators :@data, :time, :status, :to_h
+    def_delegators :@data, :id, :time, :status, :to_h
 
-    def initialize(data)
+    def initialize(id, data)
+      id = id
       @data = OpenStruct.new data
     end
 
-    def self.from_redis(raw)
+    def self.from_redis(id, raw)
       return NilStatusUser.new if raw.nil?
 
-      new decode(raw)
+      new id, decode(raw)
     end
 
     def for_redis
@@ -20,6 +21,10 @@ module Chompy
 
     def away?
       !time.nil?
+    end
+
+    def slack_name
+      "<@#{id}>"
     end
 
     def time_away

@@ -24,12 +24,12 @@ module Chompy
     end
 
     def find(username)
-      StatusUser.from_redis @client.get(STATUS_KEY + username)
+      StatusUser.from_redis username, @client.get(STATUS_KEY + username)
     end
 
     # all statuses expire after 5 hours (to avoid stales)
     def away(username, status=nil)
-      user = StatusUser.new(status: status)
+      user = StatusUser.new(username, status: status)
 
       @client.setex (STATUS_KEY + username),
         EXPIRE_TIME_IN_SECONDS,
