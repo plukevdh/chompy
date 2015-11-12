@@ -48,7 +48,7 @@ module Chompy
       user = find(username)
       @client.del (STATUS_KEY + username)
 
-      @history.log(username, user.time, user.time_away)
+      @history.log(username, user.time, user.time_away) unless user.nil?
 
       user
     end
