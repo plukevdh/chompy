@@ -61,7 +61,7 @@ module Chompy
 
     def clean_key_names(result_set)
       corrected = {}
-      result_set.each {|k,v| corrected[clean_key(k)] = StatusUser.from_redis(v) }
+      result_set.each {|k,v| corrected[clean_key(k)] = StatusUser.from_redis(k, v) }
 
       corrected
     end

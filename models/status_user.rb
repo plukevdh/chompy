@@ -2,15 +2,16 @@ module Chompy
   class StatusUser
     extend Forwardable
 
-    def_delegators :@data, :id, :time, :status, :to_h
+    def_delegators :@data, :time, :status, :to_h
+    attr_reader :id
 
     def initialize(id, data)
-      id = id
+      @id = id
       @data = OpenStruct.new data
     end
 
     def self.from_redis(id, raw)
-      return NilStatusUser.new if raw.nil?
+      return NilStatusUser.new(id) if raw.nil?
 
       new id, decode(raw)
     end
@@ -45,7 +46,12 @@ module Chompy
   end
 
   class NilStatusUser < StatusUser
-    def initialize
+    def initialize(id)
+      @id = id
+    end
+
+    def nil?
+      true
     end
 
     def away?
