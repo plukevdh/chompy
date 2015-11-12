@@ -1,6 +1,5 @@
 require_relative 'commands/list_command'
 require_relative 'commands/status_toggle'
-require_relative 'responder'
 
 module Chompy
   class ChompyCommand

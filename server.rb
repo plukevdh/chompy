@@ -3,6 +3,8 @@ require 'forwardable'
 
 require 'roda'
 
+require_relative 'models/responder'
+
 require_relative 'repos/statuses'
 require_relative 'repos/slacker'
 
