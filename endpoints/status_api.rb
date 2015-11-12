@@ -11,6 +11,35 @@ module Chompy
       JSON.parse(body)
     end
 
+    def status(request)
+      request_body(request)['status']
+    end
+
+    def notify_channel(request)
+      (request_body(request)['notify_channel'] || '').gsub('#', '')
+    end
+
+    def away(user, request)
+      chan = notify_channel(request)
+      user = Statuses.instance.away user.id, status(request)
+      Responder.new.in_channel("#{user.slack_name} is :chompy: #{user.status}", chan) unless chan.empty?
+
+      "away"
+    end
+
+    def present(user)
+      user = Statuses.instance.present user.id
+
+      if user.nil?
+        "was already present"
+      else
+        chan = notify_channel(request)
+        Responder.new.in_channel("#{user.slack_name} is back from :chompy: #{user.status}", chan) unless chan.empty?
+
+        "was gone for #{user.time}"
+      end
+    end
+
     route do |r|
       r.on 'users' do
         r.is method: :get do
@@ -36,24 +65,16 @@ module Chompy
           end
 
           r.post 'toggle' do
-            user = repo.toggle user_id, request_body(r)['status']
-
-            repo.away?(user_id) ? "away" : "was gone for #{user.away_in_words.gsub(' ago', '')}"
+            puts user.inspect
+            repo.away?(user_id) ? present(user) : away(user, r)
           end
 
           r.post 'away' do
-            user = repo.away user_id, request_body(r)['status']
-
-            user.to_h
+            away(user, r)
           end
 
           r.post 'present' do
-            user = repo.present user_id
-            if user.is_a? NilStatusUser
-              format_response(user, "was already present")
-            else
-              format_response(user, "was gone for #{user.time}")
-            end
+            present(user)
           end
         end
       end
